@@ -1,25 +1,27 @@
-# Multi-stage build for Laravel on Render
-FROM php:8.3-fpm-alpine AS base
+# Optimized Laravel Dockerfile for Render
+FROM php:8.3-cli-alpine
 
-# Install system dependencies and PHP extensions
+# Install system dependencies
 RUN apk add --no-cache \
     curl \
     libzip-dev \
     libpng-dev \
     libjpeg-turbo-dev \
     freetype-dev \
+    oniguruma-dev \
     zip \
     unzip \
     git \
     mysql-client \
-    && docker-php-ext-configure gd --with-freetype --with-jpeg \
-    && docker-php-ext-install \
+    linux-headers
+
+# Install PHP extensions
+RUN docker-php-ext-install \
     pdo_mysql \
     mbstring \
     zip \
-    gd \
-    fileinfo \
-    tokenizer
+    && docker-php-ext-configure gd --with-freetype --with-jpeg \
+    && docker-php-ext-install gd
 
 # Install Composer
 COPY --from=composer:2 /usr/bin/composer /usr/bin/composer
