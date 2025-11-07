@@ -14,12 +14,13 @@ nixPkgs = [
 
 [phases.install]
 cmds = [
-  'cd backend && COMPOSER_ALLOW_SUPERUSER=1 composer install --no-dev --prefer-dist --no-interaction --no-progress --optimize-autoloader'
+  'cd backend && COMPOSER_ALLOW_SUPERUSER=1 composer install --no-dev --prefer-dist --no-interaction --no-progress --optimize-autoloader --no-scripts'
 ]
 
 [phases.build]
 cmds = [
   'cd backend && mkdir -p bootstrap/cache',
+  'cd backend && php artisan package:discover --ansi',
   'cd backend && php artisan key:generate --force',
   'cd backend && php artisan config:cache',
   'cd backend && php artisan route:cache'
