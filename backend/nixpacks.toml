@@ -17,7 +17,10 @@ cmds = ['COMPOSER_ALLOW_SUPERUSER=1 composer install --no-dev --prefer-dist --no
 
 [phases.build]
 cmds = [
-  'mkdir -p bootstrap/cache',
+	'mkdir -p bootstrap/cache',
+	'mkdir -p storage/framework/cache/data',
+	'mkdir -p storage/framework/sessions',
+	'mkdir -p storage/framework/views',
 	'php artisan package:discover --ansi',
   'php artisan key:generate --force',
   'php artisan config:cache',

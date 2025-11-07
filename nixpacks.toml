@@ -20,6 +20,9 @@ cmds = [
 [phases.build]
 cmds = [
   'cd backend && mkdir -p bootstrap/cache',
+  'cd backend && mkdir -p storage/framework/cache/data',
+  'cd backend && mkdir -p storage/framework/sessions',
+  'cd backend && mkdir -p storage/framework/views',
   'cd backend && php artisan package:discover --ansi',
   'cd backend && php artisan key:generate --force',
   'cd backend && php artisan config:cache',
