@@ -7,12 +7,14 @@ RUN apk update && apk add --no-cache \
     zip \
     unzip \
     git \
+    postgresql-client \
     mysql-client \
     libzip \
     libpng \
     libjpeg-turbo \
     freetype \
-    oniguruma
+    oniguruma \
+    libpq
 
 # Install build dependencies (needed for compiling PHP extensions)
 RUN apk add --no-cache --virtual .build-deps \
@@ -20,12 +22,15 @@ RUN apk add --no-cache --virtual .build-deps \
     libpng-dev \
     libjpeg-turbo-dev \
     freetype-dev \
-    oniguruma-dev
+    oniguruma-dev \
+    postgresql-dev
 
 # Configure and install PHP extensions
 RUN docker-php-ext-configure gd --with-freetype --with-jpeg \
     && docker-php-ext-install -j$(nproc) \
     pdo_mysql \
+    pdo_pgsql \
+    pgsql \
     mbstring \
     zip \
     gd \
