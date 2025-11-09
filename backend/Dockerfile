@@ -68,8 +68,12 @@ RUN mkdir -p \
 # Run Laravel optimization commands
 RUN php artisan package:discover --ansi
 
+# Copy entrypoint script
+COPY docker-entrypoint.sh /usr/local/bin/
+RUN chmod +x /usr/local/bin/docker-entrypoint.sh
+
 # Expose port
 EXPOSE 8080
 
-# Start command (will be overridden by Render)
-CMD php artisan serve --host=0.0.0.0 --port=${PORT:-8080}
+# Use entrypoint to run migrations before starting server
+ENTRYPOINT ["docker-entrypoint.sh"]
